@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flask MongoDB To-Do</title>
+</head>
+
+<body>
+
+    <h1>My To-Do List</h1>
+
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Enter task" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            {% if task.completed %}
+            <strike>{{ task.task }}</strike>
+            {% else %}
+            {{ task.task }}
+            {% endif %}
+
+            <a href="/complete/{{ task._id }}"> ✔ </a>
+            <a href="/delete/{{ task._id }}"> ❌ </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>
