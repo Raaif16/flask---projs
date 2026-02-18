@@ -136,7 +136,9 @@ def delete_post(post_id):
 def dashboard():
     if "user_id" not in session:
         return redirect("/login")
-    return render_template("dashboard.html")
+    
+    posts = list(posts_collection.find().sort("created_time", -1))
+    return render_template("dashboard.html", posts=posts)
 
 if __name__ == "__main__":
     app.run(debug =True, port = 5002)
