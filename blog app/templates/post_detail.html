@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    <p><strong>Author:</strong> {{ post.author }}</p>
+    <p><strong>Date:</strong>
+        {% if post.created_at %}
+        {{ post.created_at.strftime("%Y-%m-%d %H:%M") }}
+        {% else %}
+        N/A
+        {% endif %}
+    </p>
+    <hr>
+    <p>{{ post.content }}</p>
+
+    {% if session.get("user_id") == post.author_id %}
+    <br>
+    <a href="/edit/{{ post._id }}">Edit</a>
+    <a href="/delete/{{ post._id }}">Delete</a>
+    {% endif %}
+</div>
+{% endblock %}
