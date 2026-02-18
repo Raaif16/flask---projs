@@ -94,30 +94,30 @@ def view_post(post_id):
     })
     return render_template("post_detail.html", post = post)
 
-@app.route("/edit/<post_id>", methods = ["GET", "POST"])
-def edit(post_id):
+@app.route("/edit/<post_id>", methods=["GET", "POST"])
+def edit_post(post_id):
     if "user_id" not in session:
         return redirect("/login")
 
-    post = posts_collection.find_one({
-        "_id": ObjectId(post_id)
-    })
+    post = posts_collection.find_one({"_id": ObjectId(post_id)})
 
     if post["author_id"] != session["user_id"]:
-        return "Unauthorised", 403
+        return "Unauthorized"
 
     if request.method == "POST":
-        posts_collection.update_one({
-            "id": ObjectId(post_id),
-        },
-        {
-            "$set": {
-                "title": request.form.get("title"),
-                "content": request.form.get("content")
+        posts_collection.update_one(
+            {"_id": ObjectId(post_id)},
+            {
+                "$set": {
+                    "title": request.form.get("title"),
+                    "content": request.form.get("content")
+                }
             }
-        })
+        )
         return redirect("/")
-    return render_template("edit_post.html", post = post)
+
+    return render_template("edit_post.html", post=post)
+
 
 @app.route("/delete/<post_id>")
 def delete_post(post_id):
